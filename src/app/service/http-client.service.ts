@@ -25,6 +25,10 @@ export class HttpClientService {
     return this.httpClient.get<User[]>(path);
   }
 
+  getUser(username) {
+    return this.httpClient.get<User>(path + '/' + username);
+  }
+
   deleteUser(user) {
     return this.httpClient.delete<User>(path + '/' + user.id);
   }
