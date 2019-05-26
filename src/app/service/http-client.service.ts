@@ -10,8 +10,19 @@ export class User {
   ) { }
 }
 
+export class Note {
+  constructor(
+    public id: string,
+    public author: string,
+    public title: string,
+    public content: string,
+    public created: string,
 
-const path = 'http://localhost:8080/api/users';
+  ) { }
+}
+
+
+const path = 'http://localhost:8080/api/';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,19 +32,30 @@ export class HttpClientService {
     private httpClient: HttpClient
   ) { }
 
+  usersPath = path + 'users';
+  notesPath = path + 'notes';
+
   getUsers() {
-    return this.httpClient.get<User[]>(path);
+    return this.httpClient.get<User[]>(this.usersPath);
   }
 
   getUser(username) {
-    return this.httpClient.get<User>(path + '/' + username);
+    return this.httpClient.get<User>(this.usersPath + '/' + username);
   }
 
   deleteUser(user) {
-    return this.httpClient.delete<User>(path + '/' + user.id);
+    return this.httpClient.delete<User>(this.usersPath + '/' + user.id);
   }
 
   createUser(user) {
-    return this.httpClient.post<User>(path, user);
+    return this.httpClient.post<User>(this.usersPath, user);
+  }
+
+  getNotes() {
+    return this.httpClient.get<Note[]>(this.notesPath);
+  }
+
+  createNote(note) {
+    return this.httpClient.post<User>(this.notesPath, note);
   }
 }
