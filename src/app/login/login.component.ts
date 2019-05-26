@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit {
     ) {
       this.router.navigate([''])
       this.invalidLogin = false
-    } else
-      this.router.navigate(['/data']);
+    } else {
+      this.router.navigate(['dashboard']);
       this.invalidLogin = true
+    }
   }
-
 }

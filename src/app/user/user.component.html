@@ -5,14 +5,12 @@
             <tr>
                 <th>Name</th>
                 <th>Username</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let user of users">
                 <td>{{user.name}}</td>
                 <td>{{user.username}}</td>
-                <td><button class="btn btn-danger" (click)="deleteUser(user)"> Delete user</button></td>
             </tr>
         </tbody>
     </table>

@@ -13,12 +13,18 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { DataComponent } from './data/data.component';
+import { NoteComponent } from './note/note.component';
+import { AddNoteComponent } from './add-note/add-note.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthenticationService } from './service/authentication.service';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'data', component: DataComponent },
+  { path: 'dashboard', component: DashboardComponent },
+
 
 ];
 
@@ -32,15 +38,18 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     WelcomeComponent,
-    DataComponent
+    DataComponent,
+    NoteComponent,
+    AddNoteComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
