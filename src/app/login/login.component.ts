@@ -14,19 +14,22 @@ export class LoginComponent implements OnInit {
   invalidLogin = false
 
   constructor(private router: Router,
-    private loginservice: AuthenticationService) { }
+    private loginService: AuthenticationService) { }
 
   ngOnInit() {
+    if (this.loginService.isUserLoggedIn()) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
   checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)
+    if (this.loginService.authenticate(this.username, this.password)
     ) {
-      this.router.navigate([''])
+      this.router.navigate(['']);
       this.invalidLogin = false
     } else {
-      this.router.navigate(['dashboard']);
       this.invalidLogin = true
+      window.location.reload(true);
     }
   }
 }
