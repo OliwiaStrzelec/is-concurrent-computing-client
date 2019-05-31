@@ -17,4 +17,8 @@ export class DataComponent implements OnInit {
     }
   }
 
+  myFunction(): void {
+    console.log('works!');
+      
+  }
 }
