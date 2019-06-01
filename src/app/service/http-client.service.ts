@@ -21,6 +21,16 @@ export class Note {
   ) { }
 }
 
+export class File {
+  constructor(
+    public id: string,
+    public name: string,
+    public added: string,
+    public addedBy: string,
+
+  ) { }
+}
+
 
 const path = 'http://localhost:8080/api/';
 @Injectable({
@@ -34,6 +44,7 @@ export class HttpClientService {
 
   usersPath = path + 'users';
   notesPath = path + 'notes';
+  filesPath = path + 'files';
 
   getUsers() {
     return this.httpClient.get<User[]>(this.usersPath);
@@ -57,5 +68,13 @@ export class HttpClientService {
 
   createNote(note) {
     return this.httpClient.post<User>(this.notesPath, note);
+  }
+  
+  getFilesByName(filename) {
+    return this.httpClient.get<File[]>(this.filesPath + '/' + filename);
+  }
+  
+  addFile(file) {
+    return this.httpClient.post<File>(this.filesPath, file);
   }
 }

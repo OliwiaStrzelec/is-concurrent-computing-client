@@ -41,7 +41,7 @@ const routes: Routes = [
     DataComponent,
     NoteComponent,
     AddNoteComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
