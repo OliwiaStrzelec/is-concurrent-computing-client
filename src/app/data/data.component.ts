@@ -11,6 +11,8 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class DataComponent implements OnInit {
 
+  pointsa = null;
+  elementsa = null;
   constructor(private router: Router, private loginService: AuthenticationService) { }
 
   ngOnInit() {
@@ -18,6 +20,7 @@ export class DataComponent implements OnInit {
       this.router.navigate(['login']);
     }
   }
+  
 
   myFunction(): void {
     console.log('works!');
@@ -61,12 +64,12 @@ export class DataComponent implements OnInit {
 
 
       const camera = new THREE.PerspectiveCamera( 45, window.innerWidth * 0.8 / window.innerHeight * 0.8, 1, 500 );
-      camera.position.set( 1, 1, 1 );
-      camera.lookAt( 0, 0 , 0 );
+
 
       let scene = new THREE.Scene();
 
-
+      this.pointsa = points;
+      this.elementsa = elements;
       for ( i = 0 ; i < elements.length ; i++) {
         const geometry = new THREE.Geometry();
         for ( let j = 2; j < elements[i].length ; j++) {
@@ -78,6 +81,8 @@ export class DataComponent implements OnInit {
         }
         const line = new THREE.Line( geometry, material );
         scene.add( line );
+        camera.position.set( 0, 0, 1 );
+        camera.lookAt( 0, 0 , 0 );
         renderer.render( scene, camera );
         document.body.appendChild( renderer.domElement );
       }
