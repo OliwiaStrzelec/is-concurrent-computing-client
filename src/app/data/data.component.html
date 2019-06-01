@@ -1,11 +1,39 @@
-
-  <div class="container">
-    <div class="upload-btn-wrapper">
-      <button class="btn btn-success">Upload a file...</button>
-      <input class="input-file" id="myFile" type="file" on-change="myFunction()">
+<div class="container mb-2">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="upload-btn-wrapper">
+        <button class="btn btn-success">Upload a file...</button>
+        <input class="input-file" id="myFile" type="file" on-change="myFunction()">
+      </div>
+    </div>
+    <div *ngIf="filename != null" class="col-md-2">
+      <button class="btn btn-success" (click)="addFile()">Save file</button>
     </div>
   </div>
-
-  <div class="container">
-    <canvas id="canvas"></canvas>
+  <div class="row">
+    <div class="container">
+      <h3 class="text-center">History</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Added by</th>
+            <th>Added date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td>{{file.name}}</td>
+            <td>{{file.addedBy}}</td>
+            <td>{{file.added}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <div class="row">
+    <div class="container">
+        <canvas id="my_canvas"></canvas>
+    </div>
+  </div>
+</div>
