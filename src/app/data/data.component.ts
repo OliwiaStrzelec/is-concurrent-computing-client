@@ -13,6 +13,7 @@ export class DataComponent implements OnInit {
 
   pointsa = null;
   elementsa = null;
+  filename = null;
   constructor(private router: Router, private loginService: AuthenticationService) { }
 
   ngOnInit() {
@@ -102,6 +103,7 @@ export class DataComponent implements OnInit {
         const txt = 'Select one or more files.';
       } else {
         const file = (document.getElementById('myFile') as HTMLInputElement).files[0];
+        this.filename = file.name;
         reader.readAsText(file, 'UTF-8');
 
       }
