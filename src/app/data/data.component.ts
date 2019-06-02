@@ -70,27 +70,36 @@ export class DataComponent implements OnInit {
       alert('Points array: ' + points[p - 1].length + '\n' + points[p - 1]);
       alert('Elements array: ' + elements[ei - 1].length + '\n' + elements.length + '\n' + elements[ei - 1]);
       const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-      const my_canvas = document.getElementById("my_canvas");
-      const renderer = new THREE.WebGLRenderer({canvas : my_canvas});
-      renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+      const my_canvas = document.getElementById("my_canvas")as HTMLCanvasElement;
+      const height = (document.getElementById("my_canvas")as HTMLCanvasElement).height;
+      const width = (document.getElementById("my_canvas")as HTMLCanvasElement).width;
 
-      const camera = new THREE.PerspectiveCamera(45, window.innerWidth * 0.8 / window.innerHeight * 0.8, 1, 500);
+      const renderer = new THREE.WebGLRenderer({canvas : my_canvas});
+      renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8 );
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth * 0.8 / window.innerHeight * 0.8, 1, 50);
 
       let scene = new THREE.Scene();
       this.pointsa = points;
       this.elementsa = elements;
       for (i = 0; i < elements.length; i++) {
         const geometry = new THREE.Geometry();
-        for (let j = 2; j < elements[i].length; j++) {
-          geometry.vertices.push(new THREE.Vector3(
-            points[elements[i][j] - 1][1],
-            points[elements[i][j] - 1][2],
-            points[elements[i][j] - 1][3]));
+        for (let j = 2; j <= elements[i].length; j++) {
+          if (j !== elements[i].length) {
+            geometry.vertices.push(new THREE.Vector3(
+              points[elements[i][j] - 1][1],
+              points[elements[i][j] - 1][2],
+              points[elements[i][j] - 1][3]));
+          } else {
+            geometry.vertices.push(new THREE.Vector3(
+              points[elements[i][2] - 1][1],
+              points[elements[i][2] - 1][2],
+              points[elements[i][2] - 1][3]));
+          }
           // alert(points[elements[i][j]-1][1]);
         }
         const line = new THREE.Line(geometry, material);
         scene.add(line);
-        camera.position.set(0, 0, 1);
+        camera.position.set(1, 1, 1);
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
         // document.body.appendChild(renderer.domElement);
