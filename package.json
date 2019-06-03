@@ -24,6 +24,9 @@
     "rxjs": "~6.3.3",
     "three": "^0.105.1",
     "three-js": "^79.0.0",
+    "three-orbit-controls": "^82.1.0",
+    "three-orbitcontrols": "^2.102.1",
+    "three-orbitcontrols-ts": "^0.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
