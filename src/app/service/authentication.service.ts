@@ -14,7 +14,7 @@ export class AuthenticationService {
     this.httpClientService.getUser(username).subscribe(
       user => {
         if (username === user.username && password === user.password) {
-          sessionStorage.setItem('username', username)
+          sessionStorage.setItem('username', username);
           return true;
         }
       })
@@ -22,12 +22,11 @@ export class AuthenticationService {
   }
 
   isUserLoggedIn() {
-    let user = sessionStorage.getItem('username')
-    console.log(!(user === null))
-    return !(user === null)
+    let user = sessionStorage.getItem('username');
+    return !(user === null);
   }
 
   logOut() {
-    sessionStorage.removeItem('username')
+    sessionStorage.removeItem('username');
   }
 }

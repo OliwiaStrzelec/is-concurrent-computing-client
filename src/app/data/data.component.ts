@@ -7,6 +7,7 @@ import { HttpClientService, File } from '../service/http-client.service';
 import {TrackballControls} from 'three/examples/jsm/controls/TrackballControls';
 
 
+
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
@@ -86,9 +87,13 @@ export class DataComponent implements OnInit {
       let i = 1;
       const points = [];
       let p = 0;
+      let maxt = 0;
+      let mint = 0;
       while (lines[i] !== '*ELEMENT_SOLID') {
         points[p] = [];
         points[p] = lines[i].split(',');
+        if (points[p][4] > maxt) { maxt = points[p][4]; }
+        if (points[p][4] < mint) { mint = points[p][4]; }
         p++;
         i++;
       }
@@ -110,27 +115,96 @@ export class DataComponent implements OnInit {
       this.pointsa = points;
       this.elementsa = elements;
       const scale = 1500;
+      const uniforms = THREE.UniformsUtils.clone({uniforms: {
+        }});
+      const parameters = {vertexColors: THREE.VertexColors,
+        fragmentShader: [
+          'varying vec3 vColor;',
+          'void main( void ) {',
+          'gl_FragColor = vec4( vColor.rgb, 1. );',
+          '}'
+        ].join('\n'),
+        vertexShader: [
+          'varying vec3 vColor;',
+          'void main() {',
+          'vColor = color;',
+          'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+          '}'
+        ].join('\n'),
+        side: THREE.DoubleSide,
+        uniforms};
+      let tempcol = 0;
       for (i = 0; i < elements.length; i++) {
         const geometry = new THREE.Geometry();
+        geometry.faces.push(new THREE.Face3(0, 1, 2));
+        geometry.faces.push(new THREE.Face3(0, 3, 2));
+        geometry.faces.push(new THREE.Face3(0, 5, 4));
+        geometry.faces.push(new THREE.Face3(0, 1, 5));
+        geometry.faces.push(new THREE.Face3(3, 0, 7));
+        // geometry.faces.push(new THREE.Face3(4, 2, 5));
         for (let j = 2; j <= elements[i].length; j++) {
           if (j !== elements[i].length) {
             geometry.vertices.push(new THREE.Vector3(
               points[elements[i][j] - 1][1] * scale,
               points[elements[i][j] - 1][2] * scale,
               points[elements[i][j] - 1][3] * scale));
+
+            tempcol = 255 * points[elements[i][j] - 1][4] / maxt;
+            tempcol = Math.round(tempcol);
+            geometry.faces[0].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[1].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[2].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[3].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[4].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+           // geometry.faces[3].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
           } else {
             geometry.vertices.push(new THREE.Vector3(
               points[elements[i][2] - 1][1] * scale,
               points[elements[i][2] - 1][2] * scale,
               points[elements[i][2] - 1][3] * scale));
+            tempcol = 255 * points[elements[i][2] - 1][4] / maxt;
+            tempcol = Math.round(tempcol);
+            geometry.faces[0].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[1].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[2].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[3].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+            geometry.faces[4].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
+          //  geometry.faces[3].vertexColors[j - 2] = new THREE.Color('rgb(255,0,0)');
           }
+          const material2 = new THREE.ShaderMaterial(parameters);
+          const mesh = new THREE.Mesh(geometry, material2);
+          scene.add(mesh);
           // alert(points[elements[i][j]-1][1]);
         }
         // console.log(elements);
         const line = new THREE.Line(geometry, material);
         scene.add(line);
         // document.body.appendChild(renderer.domElement);
+        // THREE.VertexColorShader = {
+        //
+        //   uniforms: {
+        //   },
+        //   vertexShader: [
+        //     'varying vec3 vColor;',
+        //     'void main() {',
+        //     'vColor = color;',
+        //     'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+        //     '}'
+        //   ].join('\n'),
+        //   fragmentShader: [
+        //     'varying vec3 vColor;',
+        //     'void main( void ) {',
+        //     'gl_FragColor = vec4( vColor.rgb, 1. );',
+        //     '}'
+        //   ].join('\n')
+        // };
+        // const shader = THREE.WebGLShader;
+
+
+        // mesh.position.y = 1;
+
       }
+
 
       // noinspection JSAnnotator
     };
